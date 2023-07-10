@@ -11,6 +11,7 @@ pool:
 
 variables:
   solution: '**/*.sln'
+
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -28,3 +29,16 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarcloud'
+    organization: 'dev-organizations1'
+    scannerMode: 'MSBuild'
+- task: SonarCloudAnalyze@1
+  inputs:
+    jdkversion: 'JAVA_HOME_11_X64'
+    projectKey: 'Agileproject'
+    projectName: 'Agileproject'
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
